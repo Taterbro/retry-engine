@@ -258,39 +258,6 @@ Returns `[]` (not `null`) when no rows match.
 
 ---
 
-## Backoff & Jitter Reference
-
-```
-attempt 1  →  backoffMs × 2⁰ × jitter  =  ~1000 ms
-attempt 2  →  backoffMs × 2¹ × jitter  =  ~2000 ms
-attempt 3  →  backoffMs × 2² × jitter  =  ~4000 ms
-attempt 4  →  backoffMs × 2³ × jitter  =  ~8000 ms
-attempt 5  →  backoffMs × 2⁴ × jitter  =  ~16000 ms
-```
-
-`jitter` is a random multiplier sampled uniformly from **[0.8, 1.2)** on every
-attempt, preventing multiple clients from retrying in lockstep (thundering herd).
-
----
-
-## Database Schema
-
-```sql
--- One row per submitted job
-SELECT id, url, method, status, attempt_count,
-       next_retry_at, last_error, result
-FROM   requests;
-
--- One row per HTTP call made
-SELECT request_id, attempt_num, status_code,
-       error, response, attempted_at
-FROM   attempts
-WHERE  request_id = 'a1b2c3d4-...'
-ORDER  BY attempt_num;
-```
-
----
-
 ## Core Concepts
 
 The retry engine focuses on making sure requests made to external API services are properly handled in the event of a failure. This works by retrying the requests again and incorporating **exponential backoff** and **jitter** during the retry process.
