@@ -268,6 +268,9 @@ The retry engine focuses on making sure requests made to external API services a
 
 Some errors(`5xx`) are retried while others(`4xx`) are not. A `500` error means the _server_ had an unexpected problem. This could be due to the server not expecting the amount of load it's getting at the moment or some other problem that could be resolved in a few seconds, so retrying wouldn't hurt. This also goes for network timeout or drops, a retry could get a different response. With `400` errors, the request is malformed and retrying the server with malformed data changes nothing; you will get the same response every time.
 
+<img width="918" height="924" alt="image" src="https://github.com/user-attachments/assets/b1b75109-ff89-4bb9-a3c7-a95f7478c7c1" />
+
+
 ### Personal struggles while making this
 
 - **Goroutines**: As someone who's trying to learn Go(and backend in general) the worker handling the retries was a bit tricky to understand.
