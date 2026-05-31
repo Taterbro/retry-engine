@@ -205,8 +205,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	workdir, _ := os.MkdirTemp("", "retry_demo_*")
-	defer os.RemoveAll(workdir)
+	self, _ = os.Executable()
+	workdir := filepath.Join(filepath.Dir(self), "data")
+	os.MkdirAll(workdir, 0755)
 
 	fmt.Printf("  ▶  Starting retry engine on :%d …\n", enginePort)
 	engine := exec.Command(engineBin)

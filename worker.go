@@ -104,7 +104,7 @@ func (w *Worker) attempt(r pendingRow) {
 	if err != nil {
 		s := fmt.Sprintf("build request: %v", err)
 		errStr = &s
-		shouldRetry = true
+		shouldRetry = false
 	} else {
 		resp, err := w.client.Do(req)
 		if err != nil {
